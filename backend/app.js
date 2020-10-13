@@ -7,7 +7,8 @@ let express = require("express"),
 require("dotenv").config();
 
 // require routers
-let userRouter = require("./routers/user");
+let userRouter = require("./routers/user"),
+	fileRouter = require("./routers/file");
 
 // config environment variables from .env
 require("dotenv").config();
@@ -28,6 +29,7 @@ cors = app.use(cors());
 
 // use routers
 app.use(userRouter);
+app.use(fileRouter);
 
 app.get("/", (req, res) => {
 	res.send("<h1>Hello World!</h1");
