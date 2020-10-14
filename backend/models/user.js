@@ -15,6 +15,7 @@ let UserSchema = mongoose.Schema({
 		type: String,
 		required: true,
 	},
+	files: [String],
 });
 
 module.exports = mongoose.model("User", UserSchema);
