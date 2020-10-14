@@ -22,13 +22,13 @@ router.post("/register", validation, (req, res) => {
 		if (err) {
 			return res
 				.status(500)
-				.json({ success: false, error: "Error in saving" });
+				.json({ success: false, message: "Error in saving" });
 		}
 		// if he exists, return error
 		if (user) {
 			return res
 				.status(400)
-				.json({ success: false, error: "User Already Exitsts" });
+				.json({ success: false, message: "User Already Exitsts" });
 		}
 
 		// create a new user
@@ -71,13 +71,13 @@ router.post("/login", (req, res) => {
 		if (err) {
 			return res
 				.status(500)
-				.json({ success: false, error: "Error finding the user" });
+				.json({ success: false, message: "Error finding the user" });
 		}
 		// if he doesn't exist, send error
 		if (!user) {
 			return res
 				.status(400)
-				.json({ success: false, error: "User doesn't exist" });
+				.json({ success: false, message: "User doesn't exist" });
 		}
 
 		// check password
@@ -85,7 +85,7 @@ router.post("/login", (req, res) => {
 		if (!isMatch) {
 			return res
 				.status(400)
-				.json({ success: false, error: "Incorrect password" });
+				.json({ success: false, message: "Incorrect password" });
 		}
 
 		// set payload of the authentication token

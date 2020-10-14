@@ -8,7 +8,7 @@ auth = function (req, res, next) {
 	if (!token)
 		return res
 			.status(401)
-			.json({ success: false, error: "Not authenticated" });
+			.json({ success: false, message: "Not authenticated" });
 
 	try {
 		const decoded = jwt.verify(token, process.env.AUTH_TOKEN_SECRET);
@@ -16,7 +16,10 @@ auth = function (req, res, next) {
 		next();
 	} catch (err) {
 		console.error(err);
-		res.status(500).send({ success: false, error: "Authentication error" });
+		res.status(500).send({
+			success: false,
+			message: "Authentication error",
+		});
 	}
 };
 

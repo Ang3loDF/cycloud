@@ -34,20 +34,22 @@ validation = function (req, res, next) {
 	})(email);
 
 	if (!validEmail)
-		return res.status(400).json({ success: false, error: "Invalid email" });
+		return res
+			.status(400)
+			.json({ success: false, message: "Invalid email" });
 
 	// validate username
 	let usernameRegex = /^[a-z0-9]+$/i;
 	if (!username || username.length > 64 || !usernameRegex.test(username))
 		return res
 			.status(400)
-			.json({ success: false, error: "Invalid username" });
+			.json({ success: false, message: "Invalid username" });
 
 	// validate password
 	if (!password || password.length < 8)
 		return res
 			.status(400)
-			.json({ success: false, error: "Invalid password" });
+			.json({ success: false, message: "Invalid password" });
 
 	next();
 };
