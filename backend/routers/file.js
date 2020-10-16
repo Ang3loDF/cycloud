@@ -142,4 +142,31 @@ router.post("/files/:filename/remove", auth, (req, res) => {
 	});
 });
 
+/* 
+ * Route for getting the list of files in the user's folder. An authenticated 
+   user can get the list of file names from his folder on the server through 
+   this route.
+ * Response: a json object with the property files, an array of strings containing
+   the name of the files
+*/
+router.get("/files", auth, (req, res) => {
+	const { id } = req.user;
+
+	// find the user
+	User.findOne({ _id: id }, (err, user) => {
+		if (err || !user) {
+			return res.json({
+				success: false,
+				message: "Error in getting the list the file",
+			});
+		}
+		// build the response
+		const response = {
+			success: true,
+			files: user.files,
+		};
+		res.json(response);
+	});
+});
+
 module.exports = router;
