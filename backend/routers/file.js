@@ -85,14 +85,14 @@ router.get("/files/:filename", auth, (req, res) => {
 	// find the user
 	User.findOne({ _id: id }, (err, user) => {
 		if (err || !user) {
-			return res.json({
+			return res.status(500).json({
 				success: false,
 				message: "Error in getting the file",
 			});
 		}
 		// check if the name of the file is in the user's list
 		if (!user.files.includes(filename)) {
-			return res.json({
+			return res.status(400).json({
 				success: false,
 				message: "File doesn't exist",
 			});
@@ -117,14 +117,14 @@ router.post("/files/:filename/remove", auth, (req, res) => {
 	// find the user
 	User.findOne({ _id: id }, (err, user) => {
 		if (err || !user) {
-			return res.json({
+			return res.status(500).json({
 				success: false,
 				message: "Error in removing the file",
 			});
 		}
 		// check if the name of the file is in the user's list
 		if (!user.files.includes(filename)) {
-			return res.json({
+			return res.status(400).json({
 				success: false,
 				message: "File doesn't exist",
 			});
@@ -155,7 +155,7 @@ router.get("/files", auth, (req, res) => {
 	// find the user
 	User.findOne({ _id: id }, (err, user) => {
 		if (err || !user) {
-			return res.json({
+			return res.status(500).json({
 				success: false,
 				message: "Error in getting the list the file",
 			});
