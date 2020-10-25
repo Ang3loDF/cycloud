@@ -4,7 +4,10 @@ import { Link } from "react-router-dom";
 import Logout from "./authentication/Logout";
 
 /* 
-The navbar component. Shows the Login/Registers or Logout links
+ * The navbar component. Shows the Login/Registers or Logout links.
+ * props required:
+	- authentication (str) - the user's Authorization token
+	- onAuthenticationChange (func) - raise when the Authorization token changes
 */
 export default function Navbar(props) {
 	const authentication = props.authentication;

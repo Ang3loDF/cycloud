@@ -2,10 +2,19 @@ import React, { useState } from "react";
 import { Button } from "@material-ui/core";
 import axios from "axios";
 
+/* 
+ * The single file of the list component. It contains the file name and a delete button
+ * props required:
+	- name (str) - the name of the file
+	- auhentication (str) - the user's Authorization token
+	- onFileDeleted (func) - raise when the file is deleted
+*/
 export default function File(props) {
 	const [error, setError] = useState(null);
 
+	// handle the click on the delete button
 	const handleDelete = () => {
+		// send request for deleting the file
 		axios
 			.post(
 				process.env.REACT_APP_BASE_URL +
@@ -20,6 +29,7 @@ export default function File(props) {
 				}
 			)
 			.then((res) => {
+				// if success raise the event
 				if (res.data.success) {
 					props.onFileDeleted();
 				}

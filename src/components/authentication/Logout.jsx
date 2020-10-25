@@ -3,8 +3,10 @@ import { Button } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 
 /* 
-The logout button component. On click remove the Authorization token from localstorage
-and redirect to "/"
+ * The logout button component. On click remove the Authorization token from localstorage
+   and redirect to "/"
+ * props required:
+	- onAuthenticationChange (func) - raise when the Authorization token changes
 */
 export default function Logout(props) {
 	const history = useHistory();

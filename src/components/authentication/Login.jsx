@@ -4,16 +4,17 @@ import qs from "qs";
 import { useHistory } from "react-router-dom";
 
 /* 
-The login form component. It contains an email and password field. It sends the login request
-to backend API, get the Authorization token and save it in localStorage. Then redirect to /dasboard
+ * The login form component. It contains an email and password field. It sends the login request
+   to backend API, get the Authorization token and save it in localStorage. Then redirect to /dasboard
+ * props required:
+	- onAuthenticationChange (func) - raise when the Authorization token changes
 */
 export default function Login(props) {
 	const history = useHistory();
+	const [error, setError] = useState(null);
 	// values of the form
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-
-	const [error, setError] = useState(null);
 
 	// when the form is submitted
 	const handleSubmit = (event) => {
