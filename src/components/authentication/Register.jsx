@@ -14,6 +14,8 @@ export default function Register(props) {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
+	const [error, setError] = useState(null);
+
 	// when the form is submitted
 	const handleSubmit = (event) => {
 		event.preventDefault();
@@ -36,7 +38,23 @@ export default function Register(props) {
 				history.push("/dashboard");
 			})
 			.catch((err) => {
-				console.log(err.response.data.message);
+				if (!err.response || !err.response.data.message)
+					return setError({
+						code: 0,
+						message: "Error in communicating with the server.",
+					});
+				if (err.response.status === 400) {
+					return setError({
+						code: 400,
+						message: err.response.data.message,
+					});
+				}
+				if (err.response.status === 500) {
+					return setError({
+						code: 500,
+						message: err.response.data.message,
+					});
+				}
 			});
 	};
 
@@ -47,7 +65,7 @@ export default function Register(props) {
 				<input
 					type="text"
 					name="username"
-					placeholder="email"
+					placeholder="username"
 					value={username}
 					onChange={(e) => {
 						setUsername(e.target.value);
@@ -75,6 +93,8 @@ export default function Register(props) {
 				/>
 				<br />
 				<button onClick={(event) => handleSubmit(event)}>Submit</button>
+
+				{error ? <p>{error.message}</p> : ""}
 			</form>
 		</div>
 	);
