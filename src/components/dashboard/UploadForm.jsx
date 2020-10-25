@@ -33,15 +33,15 @@ export default function UploadForm(props) {
 				setUploaded(true);
 			})
 			.catch((err) => {
-				try {
-					setError({
-						code: err.response.status,
-						message: err.response.data.message,
+				if (!err.response || !err.response.data.message)
+					return setError({
+						code: 1,
+						message: "Error in communicating with the server.",
 					});
-				} catch {
-					setError({
-						code: null,
-						message: null,
+				if (err.response.status === 500) {
+					return setError({
+						code: 1,
+						message: err.response.data.message,
 					});
 				}
 			});
@@ -69,9 +69,7 @@ export default function UploadForm(props) {
 						</span>
 					) : (
 						<span>
-							<p style={{ color: "red" }}>
-								Something went wrong!
-							</p>
+							<p style={{ color: "red" }}>{error.message}</p>
 							<button onClick={handleClose}>Ok</button>
 						</span>
 					)}

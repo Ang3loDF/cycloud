@@ -35,15 +35,15 @@ export default function File(props) {
 				}
 			})
 			.catch((err) => {
-				try {
-					setError({
+				if (!err.response || !err.response.data.message)
+					return setError({
+						code: 1,
+						message: "Error in communicating with the server.",
+					});
+				if (err.response.status === 500) {
+					return setError({
 						code: 1,
 						message: err.response.data.message,
-					});
-				} catch {
-					setError({
-						code: 1,
-						message: null,
 					});
 				}
 			});
@@ -55,9 +55,7 @@ export default function File(props) {
 				{props.name}
 				<Button onClick={handleDelete}>Delete</Button>
 				{error && error.code === 1 ? (
-					<p style={{ color: "red" }}>
-						Something went wrong deleting the file
-					</p>
+					<p style={{ color: "red" }}>{error.message}</p>
 				) : (
 					""
 				)}

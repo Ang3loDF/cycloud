@@ -31,15 +31,15 @@ export default function Dashboard(props) {
 				setFiles(res.data.files);
 			})
 			.catch((err) => {
-				try {
-					setError({
+				if (!err.response || !err.response.data.message)
+					return setError({
+						code: 1,
+						message: "Error in communicating with the server.",
+					});
+				if (err.response.status === 500) {
+					return setError({
 						code: 1,
 						message: err.response.data.message,
-					});
-				} catch {
-					setError({
-						code: 1,
-						message: null,
 					});
 				}
 			});
@@ -65,15 +65,15 @@ export default function Dashboard(props) {
 				setFiles(res.data.files);
 			})
 			.catch((err) => {
-				try {
-					setError({
+				if (!err.response || !err.response.data.message)
+					return setError({
+						code: 1,
+						message: "Error in communicating with the server.",
+					});
+				if (err.response.status === 500) {
+					return setError({
 						code: 1,
 						message: err.response.data.message,
-					});
-				} catch {
-					setError({
-						code: 1,
-						message: null,
 					});
 				}
 			});
@@ -88,15 +88,15 @@ export default function Dashboard(props) {
 				setFiles(res.data.files);
 			})
 			.catch((err) => {
-				try {
-					setError({
+				if (!err.response || !err.response.data.message)
+					return setError({
+						code: 1,
+						message: "Error in communicating with the server.",
+					});
+				if (err.response.status === 500) {
+					return setError({
 						code: 1,
 						message: err.response.data.message,
-					});
-				} catch {
-					setError({
-						code: 1,
-						message: null,
 					});
 				}
 			});
@@ -120,7 +120,7 @@ export default function Dashboard(props) {
 					)}
 
 					{error && error.code === 1 ? (
-						<p>Something went wrong loading the files</p>
+						<p>{error.message}</p>
 					) : (
 						files.map((e) => (
 							<span key={e}>
