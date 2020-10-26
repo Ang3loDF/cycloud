@@ -1,5 +1,17 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { makeStyles } from "@material-ui/core/styles";
+import { Input, Button } from "@material-ui/core";
+
+const useStyles = makeStyles(() => ({
+	container: {
+		maxWidth: 500,
+		marginBottom: 30,
+	},
+	fileName: {
+		wordWrap: "break-word",
+	},
+}));
 
 /* 
  * The upload form components. Contains the input for selecting the file and the logic for uploading it.
@@ -8,6 +20,8 @@ import axios from "axios";
 	- onFileUploaded (str) - raise when the file is uploaded
 */
 export default function UploadForm(props) {
+	const classes = useStyles();
+
 	const [error, setError] = useState(null);
 	// the file to load
 	const [file, setFile] = useState(null);
@@ -55,17 +69,37 @@ export default function UploadForm(props) {
 	};
 
 	return (
-		<div>
+		<div className={classes.container}>
 			{!uploaded ? (
 				<span>
 					{!error ? (
 						<span>
-							<input
-								type="file"
-								name="file"
-								onChange={handleLoadFile}
-							/>
-							<button onClick={handleUploadFile}>Upload</button>
+							<Button component="label" variant="outlined">
+								Select file
+								<input
+									type="file"
+									name="file"
+									onChange={handleLoadFile}
+									style={{ display: "none" }}
+								/>
+							</Button>
+							{file ? (
+								<div>
+									<p className={classes.fileName}>
+										{file.name}
+									</p>
+									<Button
+										onClick={handleUploadFile}
+										variant="contained"
+										color="primary"
+										size="small"
+									>
+										Upload
+									</Button>
+								</div>
+							) : (
+								""
+							)}
 						</span>
 					) : (
 						<span>
@@ -77,7 +111,14 @@ export default function UploadForm(props) {
 			) : (
 				<span>
 					<p>File uploaded!</p>
-					<button onClick={handleClose}>Ok</button>
+					<Button
+						onClick={handleClose}
+						variant="outlined"
+						color="primary"
+						size="small"
+					>
+						Ok
+					</Button>
 				</span>
 			)}
 		</div>

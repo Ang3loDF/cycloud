@@ -3,6 +3,22 @@ import axios from "axios";
 import File from "./File";
 import UploadForm from "./UploadForm";
 import { Button } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles(() => ({
+	container: {
+		maxWidth: 500,
+		margin: "auto auto",
+		paddingLeft: 20,
+		paddingRight: 20,
+	},
+	header: {
+		marginBottom: 30,
+	},
+	notLoggedIn: {
+		textAlign: "center",
+	},
+}));
 
 /* 
  * The dashboard component. It is the main component of the website. It shows a list of files
@@ -12,6 +28,8 @@ import { Button } from "@material-ui/core";
 	- auhentication (str) - the user's Authorization token
 */
 export default function Dashboard(props) {
+	const classes = useStyles();
+
 	const [error, setError] = useState(null);
 	// a list of strings containing the names of the files to show
 	const [files, setFiles] = useState([]);
@@ -105,11 +123,17 @@ export default function Dashboard(props) {
 	return (
 		<div>
 			{props.authentication ? (
-				<div>
-					<h1>Your Dashboard</h1>
-					<Button color="primary" onClick={handleUpload}>
-						Upload
-					</Button>
+				<div className={classes.container}>
+					<div className={classes.header}>
+						<h1>Your Dashboard</h1>
+						<Button
+							color="primary"
+							variant="contained"
+							onClick={handleUpload}
+						>
+							Upload
+						</Button>
+					</div>
 					{uploadFormOpen ? (
 						<UploadForm
 							authentication={props.authentication}
@@ -122,19 +146,22 @@ export default function Dashboard(props) {
 					{error && error.code === 1 ? (
 						<p>{error.message}</p>
 					) : (
-						files.map((e) => (
-							<span key={e}>
+						<div>
+							{files.map((e) => (
 								<File
 									name={e}
 									authentication={props.authentication}
 									onFileDeleted={onFileDeleted}
+									key={e}
 								/>
-							</span>
-						))
+							))}
+						</div>
 					)}
 				</div>
 			) : (
-				<h1>You are not Logged in</h1>
+				<div className={classes.notLoggedIn}>
+					<h2>You are not logged in</h2>
+				</div>
 			)}
 		</div>
 	);

@@ -11,6 +11,18 @@ import {
 	Route,
 	Redirect,
 } from "react-router-dom";
+import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
+
+const theme = createMuiTheme({
+	palette: {
+		primary: {
+			main: "#083D77",
+		},
+		secondary: {
+			main: "#0000FF",
+		},
+	},
+});
 
 /* 
 The app component. It sets up the app routes and manage the user's authenticatio
@@ -27,45 +39,51 @@ function App() {
 	};
 
 	return (
-		<Router>
-			<div className="App">
-				<Navabar
-					authentication={authentication}
-					onAuthenticationChange={onAuthenticationChange}
-				/>
-				<Switch>
-					<Route exact path="/">
-						{authentication ? (
-							<Redirect to="/dashboard" />
-						) : (
-							<Landing />
-						)}
-					</Route>
-					<Route
-						path="/login"
-						component={() => (
-							<Login
-								onAuthenticationChange={onAuthenticationChange}
-							/>
-						)}
-					></Route>
-					<Route
-						path="/register"
-						component={() => (
-							<Register
-								onAuthenticationChange={onAuthenticationChange}
-							/>
-						)}
-					></Route>
-					<Route
-						path="/dashboard"
-						component={() => (
-							<Dashboard authentication={authentication} />
-						)}
-					></Route>
-				</Switch>
-			</div>
-		</Router>
+		<MuiThemeProvider theme={theme}>
+			<Router>
+				<div className="App">
+					<Navabar
+						authentication={authentication}
+						onAuthenticationChange={onAuthenticationChange}
+					/>
+					<Switch>
+						<Route exact path="/">
+							{authentication ? (
+								<Redirect to="/dashboard" />
+							) : (
+								<Landing />
+							)}
+						</Route>
+						<Route
+							path="/login"
+							component={() => (
+								<Login
+									onAuthenticationChange={
+										onAuthenticationChange
+									}
+								/>
+							)}
+						></Route>
+						<Route
+							path="/register"
+							component={() => (
+								<Register
+									onAuthenticationChange={
+										onAuthenticationChange
+									}
+								/>
+							)}
+						></Route>
+						<Route
+							path="/dashboard"
+							component={() => (
+								<Dashboard authentication={authentication} />
+							)}
+						></Route>
+					</Switch>
+				</div>
+			</Router>
+		</MuiThemeProvider>
 	);
 }
 

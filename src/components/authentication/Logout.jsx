@@ -7,6 +7,7 @@ import { useHistory } from "react-router-dom";
    and redirect to "/"
  * props required:
 	- onAuthenticationChange (func) - raise when the Authorization token changes
+	- style (obj) - className of the link
 */
 export default function Logout(props) {
 	const history = useHistory();
@@ -23,7 +24,9 @@ export default function Logout(props) {
 
 	return (
 		<div>
-			<Button onClick={handleClick}>Logout</Button>
+			<Button onClick={handleClick} className={props.style}>
+				Logout
+			</Button>
 		</div>
 	);
 }
