@@ -2,6 +2,20 @@ import React, { useState } from "react";
 import axios from "axios";
 import qs from "qs";
 import { useHistory } from "react-router-dom";
+import { makeStyles } from "@material-ui/core/styles";
+import { TextField, Button } from "@material-ui/core";
+
+const useStyles = makeStyles(() => ({
+	container: {
+		maxWidth: 500,
+		margin: "5vh auto auto auto",
+		paddingLeft: 10,
+		paddingRight: 10,
+	},
+	textField: {
+		marginBottom: 10,
+	},
+}));
 
 /* 
  * The register form component. It contains a username, email and password field. It sends the register
@@ -10,6 +24,8 @@ import { useHistory } from "react-router-dom";
 	- onAuthenticationChange (func) - raise when the Authorization token changes
 */
 export default function Register(props) {
+	const classes = useStyles();
+
 	const history = useHistory();
 	const [error, setError] = useState(null);
 	// values of the form
@@ -60,40 +76,59 @@ export default function Register(props) {
 	};
 
 	return (
-		<div>
+		<div className={classes.container}>
 			<h1>Register</h1>
 			<form>
-				<input
+				<TextField
 					type="text"
 					name="username"
-					placeholder="username"
+					label="username"
 					value={username}
 					onChange={(e) => {
 						setUsername(e.target.value);
 					}}
+					variant="outlined"
+					size="small"
+					fullWidth
+					className={classes.textField}
 				/>
 				<br />
-				<input
+				<TextField
 					type="text"
 					name="email"
-					placeholder="email"
+					label="email"
 					value={email}
 					onChange={(e) => {
 						setEmail(e.target.value);
 					}}
+					variant="outlined"
+					size="small"
+					fullWidth
+					className={classes.textField}
 				/>
 				<br />
-				<input
+				<TextField
 					type="password"
 					name="password"
-					placeholder="password"
+					label="password"
 					value={password}
 					onChange={(e) => {
 						setPassword(e.target.value);
 					}}
+					variant="outlined"
+					size="small"
+					fullWidth
+					className={classes.textField}
 				/>
 				<br />
-				<button onClick={(event) => handleSubmit(event)}>Submit</button>
+				<Button
+					onClick={(event) => handleSubmit(event)}
+					fullWidth
+					variant="contained"
+					color="primary"
+				>
+					Submit
+				</Button>
 
 				{error ? <p>{error.message}</p> : ""}
 			</form>
