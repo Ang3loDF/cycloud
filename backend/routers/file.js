@@ -29,10 +29,16 @@ const storage = multer.diskStorage({
 		const { id } = req.user;
 		const dir = uploadsPath + id;
 
+		// if no file is passed return blank name
+		if (!file) {
+			return cb(null, "");
+		}
+
 		// get file original name and extension
 		let original = file.originalname.split(".");
-		const extention = original.pop().toLowerCase();
-		let name = original.join();
+		const extention =
+			original.length > 1 ? original.pop().toLowerCase() : "";
+		let name = original.join(".");
 
 		// if there is already a file with this name in the user's folder,
 		// keep adding _i untill it is unique
@@ -53,6 +59,14 @@ let upload = multer({ storage });
 	- file: the file that have to be uploaded
 */
 router.post("/upload", auth, upload.single("file"), (req, res) => {
+	// if the file has no name, something invalid has been found
+	if (!req.file) {
+		return res.status(400).json({
+			success: false,
+			message: "Invalid file or filename",
+		});
+	}
+
 	// find the user
 	User.findOne({ _id: req.user.id }, (err, user) => {
 		// if database error, delete the file already stored

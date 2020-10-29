@@ -52,7 +52,10 @@ export default function UploadForm(props) {
 						code: 1,
 						message: "Error in communicating with the server.",
 					});
-				if (err.response.status === 500) {
+				if (
+					err.response.status === 500 ||
+					err.response.status === 400
+				) {
 					return setError({
 						code: 1,
 						message: err.response.data.message,
