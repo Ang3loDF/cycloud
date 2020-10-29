@@ -34,6 +34,44 @@ export default function File(props) {
 
 	const [error, setError] = useState(null);
 
+	// handle the click on the name of the file
+	const handleGetFile = () => {
+		// send request for getting the file
+		axios
+			.get(
+				process.env.REACT_APP_BASE_URL + "files/" + props.name,
+				{ responseType: "blob" }, // set response as blob
+				{
+					headers: {
+						Authorization: props.authentication,
+					},
+				}
+			)
+			.then((res) => {
+				// little hack for downloading the file
+				const url = window.URL.createObjectURL(new Blob([res.data]));
+				const link = document.createElement("a");
+				link.href = url;
+				link.setAttribute("download", props.name);
+				document.body.appendChild(link);
+				link.click();
+				link.remove();
+			})
+			.catch((err) => {
+				if (!err.response || !err.response.data.message)
+					return setError({
+						code: 2,
+						message: "Error in communicating with the server.",
+					});
+				if (err.response.message) {
+					return setError({
+						code: 2,
+						message: err.response.data.message,
+					});
+				}
+			});
+	};
+
 	// handle the click on the delete button
 	const handleDelete = () => {
 		// send request for deleting the file
@@ -74,13 +112,21 @@ export default function File(props) {
 	return (
 		<div>
 			<div className={classes.container}>
-				<div className={classes.nameContainer}>{props.name}</div>
+				<div className={classes.nameContainer}>
+					<p
+						href="#"
+						style={{ cursor: "pointer" }}
+						onClick={handleGetFile}
+					>
+						{props.name}
+					</p>
+				</div>
 				<div className={classes.deleteContainer}>
 					<IconButton onClick={handleDelete} variant="contained">
 						<DeleteIcon fontSize="inherit" />
 					</IconButton>
 				</div>
-				{error && error.code === 1 ? (
+				{error && (error.code === 1 || error.code === 1) ? (
 					<p style={{ color: "red" }}>{error.message}</p>
 				) : (
 					""
