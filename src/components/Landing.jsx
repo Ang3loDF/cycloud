@@ -78,7 +78,7 @@ export default function Landing() {
 									everywhere you are. You simply need to
 									create an account and start uploading
 									images, documents, videos and anything else
-									that comes to mind
+									that comes to mind.
 								</Typography>
 							</div>
 						</Paper>
