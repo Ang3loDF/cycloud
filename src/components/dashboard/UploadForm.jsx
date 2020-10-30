@@ -38,7 +38,7 @@ export default function UploadForm(props) {
 		let formData = new FormData();
 		formData.append("file", file);
 		axios
-			.post(process.env.REACT_APP_BASE_URL + "upload", formData, {
+			.post(process.env.REACT_APP_BASE_URL + "files/upload", formData, {
 				headers: {
 					Authorization: props.authentication,
 				},

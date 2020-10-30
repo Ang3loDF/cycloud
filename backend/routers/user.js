@@ -14,7 +14,7 @@ let express = require("express"),
 	- email: email of the user (unique)
 	- password: password of the user
  */
-router.post("/register", validation, (req, res) => {
+router.post("/api/register", validation, (req, res) => {
 	// get user information
 	const { username, email, password } = req.body;
 	// try to find the user in db
@@ -63,7 +63,7 @@ router.post("/register", validation, (req, res) => {
 	- email: email of the user
 	- password: password of the user
  */
-router.post("/login", (req, res) => {
+router.post("/api/login", (req, res) => {
 	// get user information
 	const { email, password } = req.body;
 	// try to find the user

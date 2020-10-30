@@ -58,7 +58,7 @@ let upload = multer({ storage });
  * Body params (form-data):
 	- file: the file that have to be uploaded
 */
-router.post("/upload", auth, upload.single("file"), (req, res) => {
+router.post("/api/files/upload", auth, upload.single("file"), (req, res) => {
 	// if the file has no name, something invalid has been found
 	if (!req.file) {
 		return res.status(400).json({
@@ -92,7 +92,7 @@ router.post("/upload", auth, upload.single("file"), (req, res) => {
  * URL params:
 	- filename: tha name of the file to get (case sensitive)
 */
-router.get("/files/:filename", auth, (req, res) => {
+router.get("/api/files/:filename", auth, (req, res) => {
 	const { id } = req.user;
 	const { filename } = req.params;
 
@@ -124,7 +124,7 @@ router.get("/files/:filename", auth, (req, res) => {
  * URL params:
 	- filename: tha name of the file to remove (case sensitive)
 */
-router.post("/files/:filename/remove", auth, (req, res) => {
+router.post("/api/files/:filename/remove", auth, (req, res) => {
 	const { id } = req.user;
 	const { filename } = req.params;
 
@@ -163,7 +163,7 @@ router.post("/files/:filename/remove", auth, (req, res) => {
  * Response: a json object with the property files, an array of strings containing
    the name of the files
 */
-router.get("/files", auth, (req, res) => {
+router.get("/api/files", auth, (req, res) => {
 	const { id } = req.user;
 
 	// find the user
