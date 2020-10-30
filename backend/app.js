@@ -21,6 +21,7 @@ let PORT = process.env.SERVER_PORT,
 mongoose.connect(DB_URL, {
 	useUnifiedTopology: true,
 	useNewUrlParser: true,
+	useCreateIndex: true,
 });
 
 app.use(bodyParser.urlencoded({ extended: true }));
