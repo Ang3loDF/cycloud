@@ -1,7 +1,8 @@
 let express = require("express"),
 	app = express(),
 	cors = require("cors"),
-	bodyParser = require("body-parser");
+	bodyParser = require("body-parser"),
+	path = require("path");
 
 // config environment variables from .env
 require("dotenv").config();
@@ -28,12 +29,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // remove cors restriction
 cors = app.use(cors());
 
+// serve static files from build
+app.use(express.static(path.join(__dirname, "..", "build")));
+
 // use routers
 app.use(userRouter);
 app.use(fileRouter);
 
+// serve the application
 app.get("/", (req, res) => {
-	res.send("<h1>Hello World!</h1");
+	res.sendFile(path.join(__dirname, "..", "build", "index.html"));
 });
 
 app.listen(PORT, () => {
