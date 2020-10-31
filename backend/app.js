@@ -9,7 +9,8 @@ require("dotenv").config();
 
 // require routers
 let userRouter = require("./routers/user"),
-	fileRouter = require("./routers/file");
+	fileRouter = require("./routers/file"),
+	applicationRouter = require("./routers/application");
 
 // config environment variables from .env
 require("dotenv").config();
@@ -32,14 +33,11 @@ cors = app.use(cors());
 // serve static files from build
 app.use(express.static(path.join(__dirname, "..", "build")));
 
-// use routers
+// use APIs routers
 app.use(userRouter);
 app.use(fileRouter);
-
-// serve the application
-app.get("/", (req, res) => {
-	res.sendFile(path.join(__dirname, "..", "build", "index.html"));
-});
+// use application server router
+app.use(applicationRouter);
 
 app.listen(PORT, () => {
 	console.log("Server listening on port " + PORT);
